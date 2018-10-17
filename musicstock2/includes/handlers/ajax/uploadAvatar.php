@@ -8,6 +8,8 @@ include("../../config.php");
 
 
 // $username = $_POST['username'];
+
+$rute = "assets/images/profile-pics/";
 $username = "admin";
 
 
@@ -18,22 +20,22 @@ $username = "admin";
 		$file_extension = end($temporary);
 		if((($_FILES["foto"]["type"] == "image/png") || ($_FILES["foto"]["type"] == "image/jpg") || ($_FILES["foto"]["type"] == "image/jpeg") || ($_FILES["foto"]["type"] == "image/gif")) && in_array($file_extension, $valid_extensions)){
 			$sourcePath = $_FILES['foto']['tmp_name'];
-			$targetPath = "../../../assets/imagenes/".$fileName;
+			$targetPath = "../../../assets/images/profile-pics/".$fileName;
 			if(move_uploaded_file($sourcePath,$targetPath)){
-				$uploadedFile = $fileName;
+				$uploadedFile = $rute.$fileName;
 
 				$sql = "UPDATE users SET profilePic='".$uploadedFile."' WHERE username='".$username."';";
 				$query_update = mysqli_query($con,$sql);
 
 				if($query_update) 
 				{
-					echo "ok";
+					echo "Update successful";
 				}
 
 			}
 			else "Algo salió mal. Por favor verifica que la tabla exista";
 		}
 	}
-	else echo "string";
+	else echo "Algo salió mal, CAPA 8.";
 
 ?>
