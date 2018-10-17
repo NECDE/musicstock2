@@ -18,18 +18,47 @@ include("includes/includedFiles.php");
 	</div>
 	<div class="container">
 
-					<form method="post" action="includes/handlers/ajax/uploadAvatar.php" enctype="multipart/form-data" id="formEditarPerfil" >
+					<form method="post" enctype="multipart/form-data" id="formEditarPerfil" >
 							<div class="form-group">
 								<label for="nombre">Foto de Perfil</label>
 								<input type="file" class="form-control" id="foto" name="foto" placeholder="Seleccione su foto" >
 							</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-							<button type="submit" class="btn btn-primary" id="btnEditarUser">Guardar Cambios</button>
+						<div>
+							<span class="messageasd"></span>
+							<button class="button" type="submit" id="btnEditarUser">SAVE</button>
 						</div>
 					</form>
 
-
+		<script type="text/javascript">
+			$(document).ready(function() {
+			$("#formEditarPerfil").on('submit', function(e)
+			{
+				e.preventDefault();
+				$.ajax({
+						type: 'POST',
+						url: 'includes/handlers/ajax/uploadAvatar.php',
+						data: new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSend: function()
+						{
+							$('#btnEditarUser').attr("disabled","disabled");
+						},
+						success: function(msg){
+								$('.messageasd').html(msg);
+								$('#formEditarPerfil').css("opacity","");
+								$("#btnEditarUser").removeAttr("disabled");
+								setTimeout(function()
+							{
+						location.reload();
+					}, 500);
+								
+						}
+				});
+			});
+			});
+		</script>
 
 <!-- 		<form method="POST" id="fupForm" enctype="multipart/form-data">
 			<div class="form-group">
